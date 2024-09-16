@@ -39,8 +39,9 @@ public class GenericDocumentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Integer> deleteDocument(@PathVariable String collectionName, @PathVariable String id) {
+    public ResponseEntity<String> deleteDocument(@PathVariable String collectionName, @PathVariable String id) {
         int result = genericDocumentService.deleteById(collectionName, id);
-        return ResponseEntity.status(result == 1 ? 200 : 404).body(result);
+        return ResponseEntity.status(result == 1 ? 200 : 404)
+            .body(result == 1 ? "Document deleted" : "Document not found");
     }
 }
