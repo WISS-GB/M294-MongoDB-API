@@ -18,11 +18,11 @@ import org.springframework.data.mongodb.core.query.Query;
  * running Unit tests directly in the real mongo db instance,
  * yet in a collection not used otherwise
  */
-@SpringBootTest
+@SpringBootTest //required in order to use @Autowired
 public class GenericDocumentServiceTest {
 
   @Autowired
-  private MongoTemplate mongoTemplate;  // Mocking MongoTemplate
+  private MongoTemplate mongoTemplate;  // NOT mocking MongoTemplate, use the real thing!
 
   @Autowired
   private GenericDocumentService service;  // Service under test
