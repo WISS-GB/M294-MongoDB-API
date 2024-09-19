@@ -24,7 +24,7 @@ services:
       ME_CONFIG_BASICAUTH: false
 
   springboot-app:
-    image: greenorca/m294-project-api:1.0
+    image: greenorca/m294-project-api:latest
     container_name: m294-project-api
     build:
       context: .

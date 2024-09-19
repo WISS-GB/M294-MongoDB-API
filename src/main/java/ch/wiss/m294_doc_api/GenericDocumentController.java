@@ -2,11 +2,15 @@ package ch.wiss.m294_doc_api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 
 @RestController
+@Valid
 @RequestMapping("/{collectionName}/documents")
 public class GenericDocumentController {
 
@@ -14,21 +18,33 @@ public class GenericDocumentController {
     private GenericDocumentService genericDocumentService;
 
     @PostMapping
-    public GenericDocument createDocument(@PathVariable String collectionName, @RequestBody GenericDocument document) {
-        return genericDocumentService.save(collectionName, document);
+    public ResponseEntity<Object> createDocument(@PathVariable String collectionName, @RequestBody GenericDocument document, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        if (document.getContent() == null || document.getContent().isEmpty()) {
+            return ResponseEntity.badRequest().body("User error: content attribute must not be empty");
+        }
+        return ResponseEntity.ok(genericDocumentService.save(collectionName, document));
     }
 
-    @PutMapping
-    public GenericDocument updateDocument(@PathVariable String collectionName, @RequestBody GenericDocument document) {
-        if (document.getId() == null) {
-            throw new IllegalArgumentException("Document ID must not be null");
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateDocument(@PathVariable String collectionName,@PathVariable String id, @RequestBody GenericDocument document, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
-        return genericDocumentService.save(collectionName, document);
+        if (document.getContent()==null || document.getContent().isEmpty()) {
+            return ResponseEntity.badRequest().body("User error: content attribute must not be empty");
+        }
+        if (id == null || id.isEmpty() || document.getId() == null) {
+            throw new IllegalArgumentException("Document ID must not be provided in URL and in request body");
+        }
+        return ResponseEntity.ok().body(genericDocumentService.save(collectionName, document));
     }
 
     @GetMapping
-    public List<GenericDocument> getAllDocuments(@PathVariable String collectionName) {
-        return genericDocumentService.findAll(collectionName);
+    public ResponseEntity<List<GenericDocument>> getAllDocuments(@PathVariable String collectionName) {
+        return ResponseEntity.ok().body(genericDocumentService.findAll(collectionName));
     }
 
     @GetMapping("/{id}")

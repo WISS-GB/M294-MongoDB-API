@@ -10,7 +10,7 @@
 
 `docker compose up -d` sollte ausreichend sein. Die Daten des Mongo-DB Containers werden persistent gespeichert.
 
-Wenn das `greenorca/m294-project-api:1.0` nicht geladen werden kann, oder Du etwas am API-*src*-Code verändert hast, erstellst Du das Image lokal mit `docker compose up -d --build`
+Wenn das `greenorca/m294-project-api:latest` nicht geladen werden kann, oder Du etwas am API-*src*-Code verändert hast, erstellst Du das Image lokal mit `docker compose up -d --build`
 
 Die *CORS*-Konfiguration ist für beliebige URLs und Ports frei.
 
@@ -26,28 +26,26 @@ Die *CORS*-Konfiguration ist für beliebige URLs und Ports frei.
 
 ### Allgemeiner Aufbau der *documents*
 
-Jedes *document* in deiner Collection hat eine automatisch generierte *_id* und ein *content*-Attribut. Das *content*-Attribut enthält ein JSON-Objekt mit beliebigen Aufbau, beispielsweise
+Jedes *document* in deiner Collection hat eine automatisch generierte *id* und ein *content*-Attribut. Das *content*-Attribut enthält ein JSON-Objekt mit beliebigen Aufbau, beispielsweise
 
 ```json
   {
     "content" : {
-        {
         "title": "Geschenkli posten",
         "text": "Opa: Olivenöl; Oma: Kräuterlikör",
         "due-to": "2024-12-23"
-      }
     }
   }
 ```
 
-Achte darauf, dass das *content*-Attribut möglichst immer gleich aufgebaut ist, also immer die gleichen Attribute enthält.
+Achte darauf, den Inhalt des *content*-Attributs möglichst immer gleich aufzubauen, indem du immer die gleichen Attribute verwendest.
 
 ### API Requests
 
-1. GET-Request: ruft alle gespeicherten Dokumente aus der aktuellen Collection
-2. POST-Request: speichert ein neues JSON-Dokument in der aktuellen Collection
-3. PUT-Request: updated gespeichertes Dokument in der aktuellen Collection
-4. DELETE-Request: entfernt gespeichertes Dokument mit gegebener ID aus der aktuellen Collection
+1. **GET**-Request auf <http://localhost:8080/{your-collection}/documents> ruft alle gespeicherten Dokumente aus der *your-collection* Collection
+2. **POST**-Request auf <http://localhost:8080/{your-collection}/documents> speichert ein neues JSON-Dokument in der *your-collection* Collection
+3. **PUT**-Request auf <http://localhost:8080/{your-collection}/documents/{id}> updated vorhandenes Dokument mit der übergebenen *id* in der *your-collection* Collection
+4. **DELETE**-Request auf <http://localhost:8080/{your-collection}/documents/{id}> entfernt gespeichertes Dokument mit übergebener ID aus der *your-collection* Collection
 
 siehe <http://localhost:8080/v3/api-docs>
 

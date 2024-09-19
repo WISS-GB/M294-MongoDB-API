@@ -21,10 +21,5 @@ WORKDIR /app
 # Copy the jar file from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
-#COPY wait-for-mysql.sh .
-#RUN chmod +x wait-for-mysql.sh
-#RUN apt update
-#RUN apt install -y mariadb-client
 EXPOSE 8080
-#ENTRYPOINT ["./wait-for-mysql.sh", "wiss_quiz_db" , "java", "-jar", "app.jar"]
 ENTRYPOINT ["java", "-jar", "app.jar"]
