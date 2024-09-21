@@ -42,6 +42,26 @@ public class GenericDocumentController {
         return ResponseEntity.ok().body(genericDocumentService.save(collectionName, document));
     }
 
+    /**
+     * implementation of updateDocument for compatibility with previous API versions
+     * @param collectionName
+     * @param document
+     * @param bindingResult
+     * @return
+     */    @PutMapping
+    public ResponseEntity<Object> updateDocumentAlt(@PathVariable String collectionName,@RequestBody GenericDocument document, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        if (document.getContent()==null || document.getContent().isEmpty()) {
+            return ResponseEntity.badRequest().body("User error: content attribute must not be empty");
+        }
+        if (document.getId() == null) {
+            throw new IllegalArgumentException("Document ID must not be provided in URL and in request body");
+        }
+        return ResponseEntity.ok().body(genericDocumentService.save(collectionName, document));
+    }
+
     @GetMapping
     public ResponseEntity<List<GenericDocument>> getAllDocuments(@PathVariable String collectionName) {
         return ResponseEntity.ok().body(genericDocumentService.findAll(collectionName));
