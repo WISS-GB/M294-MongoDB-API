@@ -2,7 +2,7 @@
 services:
 
   mongo:
-    image: mongo
+    image: mongo:4.4 # newer versions cause trouble in Linux VMs under WIN
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root

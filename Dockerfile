@@ -1,6 +1,6 @@
 # Use a multi-stage build to build the application and create a smaller final image
 # Stage 1: Build the application
-FROM maven:3.8.4-openjdk-17 AS build
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -13,7 +13,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:21
 
 # Set the working directory inside the container
 WORKDIR /app
