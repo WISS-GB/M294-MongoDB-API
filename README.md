@@ -10,7 +10,7 @@
 
 `docker compose up -d` sollte ausreichend sein. Die Daten des Mongo-DB Containers werden persistent gespeichert.
 
-Wenn das `greenorca/m294-project-api:latest` nicht geladen werden kann, oder Du etwas am API-*src*-Code verändert hast, erstellst Du das Image lokal mit `docker compose up -d --build`
+Wenn Du etwas am API-*src*-Code verändert hast, erstellst Du das Image lokal mit `docker compose up -d --build`
 
 Die *CORS*-Konfiguration ist für beliebige URLs und Ports frei.
 
@@ -22,7 +22,7 @@ Die *CORS*-Konfiguration ist für beliebige URLs und Ports frei.
   * *contacts* für Kontakte
   * *todos* für eine Todo-Liste
 
-  Alle *collections* werden per Default in der demo-store Datenbank abgelegt. Auf Fremdschlüsselbeziehungen zwischen *collections* soll verzichtet werden.
+  Alle *collections* werden per Default in der *demo-store* Datenbank abgelegt. Auf Fremdschlüsselbeziehungen zwischen *collections* soll verzichtet werden.
 
 ### Allgemeiner Aufbau der *documents*
 
@@ -49,3 +49,16 @@ Achte darauf, den Inhalt des *content*-Attributs möglichst immer gleich aufzuba
 
 siehe <http://localhost:8080/v3/api-docs>
 
+### Beispiel
+
+Hier werden zwei Objekte in der *demo-store* DB in der *demo* Collection erstellt und danach abgefragt.
+
+```sh
+curl -X POST http://localhost:8080/demo/documents --json '{"content": {"name":"Lucky","planet":"Earth"}}'
+
+curl -X POST http://localhost:8080/demo/documents --json '{"content": {"name":"Alf","planet":"Melmak"}}'
+
+curl http://localhost:8080/demo/documents
+
+#returns [{"id":"6931be5534bd84a03f1d2a05","content":{"name":"Alf","planet":"Melmak"}},{"id":"6931be6e34bd84a03f1d2a06","content":{"name":"Lucky","planet":"Earth"}}]
+```
