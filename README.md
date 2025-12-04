@@ -3,8 +3,8 @@
 1. generische Mongo-DB - basierte REST-API <http://localhost:8080/{your-collection}/documents>
 2. Mongodb-Administrations-WebUI <http://localhost:8081/db/demo-store/>
 
-    * Benutzer: root
-    * Passwort: example
+    * Benutzer: admin
+    * Passwort: pass
 
 ## Benutzung
 
