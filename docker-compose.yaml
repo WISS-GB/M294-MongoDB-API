@@ -3,7 +3,6 @@ services:
 
   mongo:
     image: mongo:4.4 # newer versions cause trouble in Linux VMs under WIN
-    restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -14,7 +13,6 @@ services:
 
   mongo-express:
     image: mongo-express
-    restart: unless-stopped
     ports:
       - 8081:8081
     environment:
